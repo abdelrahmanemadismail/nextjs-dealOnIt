@@ -2,7 +2,7 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter }
 import { CheckCircle2 } from 'lucide-react';
 import StripeCheckoutButton from './StripeCheckoutButton';
 import { Button } from '../ui/button';
-import { Languages, CURRENCY } from "@/constants/enums";
+import { CURRENCY } from "@/constants/enums";
 // import { toast } from '@/hooks/use-toast';
 import Link from 'next/link';
 import { headers } from 'next/headers';
@@ -40,8 +40,6 @@ export default async function PackageCard({
   const supabase = await createClient();
   const { data: { session } } = await supabase.auth.getSession();
 
-  // Use the new UAE Dirham symbol
-  const displayCurrency = currency;
   // Generate the redirect URLs for authentication
   const signupUrl = `/${locale}/auth/signup`;
 

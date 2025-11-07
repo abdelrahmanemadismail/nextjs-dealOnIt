@@ -2,7 +2,6 @@ import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
 import * as LucideIcons from "lucide-react"
 import { Vehicles, Hobbies } from '@/components/Icons'
-import { CURRENCY } from '@/constants/enums'
 import { UaeDirham } from "@/components/Icons/UaeDirham"
 import React from "react"
 

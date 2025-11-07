@@ -82,12 +82,12 @@ const useResponsiveLayout = (
       const containerWidth = container.offsetWidth;
       const cardWidth = card.offsetWidth + CARD_GAP;
       const totalContentWidth = categoriesLength * cardWidth - CARD_GAP;
-      
+
       // Calculate if content needs to scroll
       const availableWidthWithBasePadding = containerWidth - (2 * BASE_PADDING);
       const needsScroll = totalContentWidth > availableWidthWithBasePadding;
-      
-      // Calculate appropriate padding 
+
+      // Calculate appropriate padding
       let containerPadding = BASE_PADDING;
       if (!needsScroll) {
         // If content fits, center it with equal padding
@@ -119,44 +119,44 @@ const useResponsiveLayout = (
 
 // Arrow icon component for better maintainability
 const ArrowIcon = ({ direction, className }: { direction: 'left' | 'right'; className?: string }) => (
-  <svg 
-    width="28" 
-    height="28" 
-    fill="none" 
-    viewBox="0 0 24 24" 
+  <svg
+    width="28"
+    height="28"
+    fill="none"
+    viewBox="0 0 24 24"
     stroke="currentColor"
     className={className}
     aria-hidden="true"
   >
-    <path 
-      strokeLinecap="round" 
-      strokeLinejoin="round" 
-      strokeWidth="2" 
-      d={direction === 'left' ? "M15 19l-7-7 7-7" : "M9 5l7 7-7 7"} 
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="2"
+      d={direction === 'left' ? "M15 19l-7-7 7-7" : "M9 5l7 7-7 7"}
     />
   </svg>
 );
 
-export default function CategoriesBanner({ 
-  categories, 
-  selectedCategoryId, 
+export default function CategoriesBanner({
+  categories,
+  selectedCategoryId,
   onCategorySelect,
   className,
-  showScrollHint = true 
+  showScrollHint = true
 }: CategoriesBannerProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const cardRef = useRef<HTMLAnchorElement>(null);
   const selectedRef = useRef<HTMLAnchorElement>(null);
-  
+
   const { locale } = useTranslation();
   const isArabic = locale === Languages.ARABIC;
-  
+
   // Custom hooks
   const { canScrollLeft, canScrollRight } = useScrollDetection(containerRef);
   const { cardWidth, containerPadding, needsScroll } = useResponsiveLayout(containerRef, cardRef, categories.length);
 
   // Memoized values
-  const scrollHintText = useMemo(() => 
+  const scrollHintText = useMemo(() =>
     isArabic ? 'مرر لرؤية المزيد من الفئات' : 'Scroll for more categories',
     [isArabic]
   );
@@ -169,19 +169,19 @@ export default function CategoriesBanner({
     const card = selectedRef.current;
     const containerRect = container.getBoundingClientRect();
     const cardRect = card.getBoundingClientRect();
-    
+
     // Calculate offset to center the selected card
     const containerCenter = containerRect.width / 2;
     const cardCenter = cardRect.left - containerRect.left + (cardRect.width / 2);
     const offset = cardCenter - containerCenter;
-    
+
     container.scrollBy({ left: offset, behavior: 'smooth' });
   }, [selectedCategoryId]);
 
   // Reset scroll position when categories change to maintain edge offset
   useEffect(() => {
     if (!containerRef.current || !needsScroll) return;
-    
+
     // Reset to start position to ensure proper edge offset
     const container = containerRef.current;
     if (container.scrollLeft === 0) {
@@ -194,7 +194,7 @@ export default function CategoriesBanner({
   const scrollLeft = useCallback(() => {
     const element = containerRef.current;
     if (!element) return;
-    
+
     const scrollAmount = Math.min(cardWidth * 2, element.clientWidth * 0.8);
     element.scrollBy({ left: -scrollAmount, behavior: "smooth" });
   }, [cardWidth]);
@@ -202,7 +202,7 @@ export default function CategoriesBanner({
   const scrollRight = useCallback(() => {
     const element = containerRef.current;
     if (!element) return;
-    
+
     const scrollAmount = Math.min(cardWidth * 2, element.clientWidth * 0.8);
     element.scrollBy({ left: scrollAmount, behavior: "smooth" });
   }, [cardWidth]);
@@ -243,13 +243,14 @@ export default function CategoriesBanner({
   const renderScrollButton = (direction: 'left' | 'right', onClick: () => void, disabled: boolean) => {
     const isLeft = direction === 'left';
     const shouldShowLeft = isArabic ? !isLeft : isLeft;
-    
+
     return (
       <button
         onClick={onClick}
         className={clsx(
-          "hidden md:flex h-12 w-12 rounded-full bg-white shadow-lg border border-gray-200 items-center justify-center text-gray-600 transition-all duration-200",
+          "flex h-10 w-10 md:h-12 md:w-12 rounded-full bg-white shadow-lg border border-gray-200 items-center justify-center text-gray-600 transition-all duration-200",
           "hover:bg-orange-50 hover:border-orange-300 hover:text-orange-600 hover:shadow-xl hover:scale-105",
+          "active:scale-95", // Better mobile feedback
           "focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-2",
           "disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:shadow-lg disabled:hover:bg-white",
           "flex-shrink-0", // Prevent button from shrinking
@@ -260,7 +261,7 @@ export default function CategoriesBanner({
         aria-label={`Scroll ${direction}`}
         type="button"
       >
-        <ArrowIcon direction={shouldShowLeft ? 'left' : 'right'} className="w-5 h-5" />
+        <ArrowIcon direction={shouldShowLeft ? 'left' : 'right'} className="w-4 h-4 md:w-5 md:h-5" />
       </button>
     );
   };
@@ -268,16 +269,16 @@ export default function CategoriesBanner({
   // Render fade overlay - simplified version
   const renderFadeOverlay = (side: 'left' | 'right', show: boolean) => {
     if (!show || !needsScroll) return null;
-    
+
     const isLeft = side === 'left';
     const shouldShowLeft = isArabic ? !isLeft : isLeft;
-    
+
     return (
-      <div 
+      <div
         className={clsx(
           "pointer-events-none absolute top-0 h-full z-10 w-8",
-          shouldShowLeft 
-            ? (isArabic ? "right-0 bg-gradient-to-l" : "left-0 bg-gradient-to-r") 
+          shouldShowLeft
+            ? (isArabic ? "right-0 bg-gradient-to-l" : "left-0 bg-gradient-to-r")
             : (isArabic ? "left-0 bg-gradient-to-r" : "right-0 bg-gradient-to-l"),
           "from-white/80 to-transparent"
         )}
@@ -295,7 +296,7 @@ export default function CategoriesBanner({
       <div className="relative w-full flex items-center justify-center gap-4 px-4">
         {/* Left Scroll Button */}
         {needsScroll && renderScrollButton('left', scrollLeft, !canScrollLeft)}
-        
+
         {/* Categories Container */}
         <div
           ref={containerRef}
@@ -319,12 +320,12 @@ export default function CategoriesBanner({
           {/* Fade Overlays */}
           {renderFadeOverlay('left', canScrollLeft)}
           {renderFadeOverlay('right', canScrollRight)}
-          
+
           {/* Category Items */}
           {categories.map((category, index) => {
             const isSelected = selectedCategoryId === category.id;
             const displayName = isArabic && category.name_ar ? category.name_ar : category.name;
-            
+
             return (
               <Link
                 key={category.id}
@@ -339,10 +340,10 @@ export default function CategoriesBanner({
                     : "bg-white border-gray-200 hover:bg-orange-50 hover:border-orange-200"
                 )}
                 ref={
-                  index === 0 
-                    ? cardRef 
-                    : isSelected 
-                    ? selectedRef 
+                  index === 0
+                    ? cardRef
+                    : isSelected
+                    ? selectedRef
                     : undefined
                 }
                 role="tab"
@@ -361,7 +362,7 @@ export default function CategoriesBanner({
                     loading="lazy"
                   />
                 </div>
-                
+
                 {/* Category Name */}
                 <span className="text-sm font-medium text-gray-900 text-center leading-tight line-clamp-2 min-h-[2.5rem] flex items-center justify-center">
                   {displayName}
@@ -369,21 +370,21 @@ export default function CategoriesBanner({
               </Link>
             );
           })}
-          
+
           {/* End Spacer - only when scrolling is needed */}
           {needsScroll && (
-            <div 
-              className="flex-shrink-0" 
+            <div
+              className="flex-shrink-0"
               style={{ width: `${EDGE_OFFSET}px` }}
               aria-hidden="true"
             />
           )}
         </div>
-        
+
         {/* Right Scroll Button */}
         {needsScroll && renderScrollButton('right', scrollRight, !canScrollRight)}
       </div>
-      
+
       {/* Mobile Scroll Hint */}
       {showScrollHint && needsScroll && (
         <div className="md:hidden mt-3 text-xs text-gray-500 text-center flex items-center justify-center gap-1">

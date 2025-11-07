@@ -145,7 +145,7 @@ export default async function LandingPage({
               className="object-cover w-full h-full"
               priority
             />
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-900/80 via-blue-700/60 to-primary2/60" />
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-900/80 via-blue-700/60 to-orange-400/60" />
           </div>
           <div className="relative z-10 w-full max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between px-4 md:px-8 py-16 gap-8">
             {/* Left: Text Content */}

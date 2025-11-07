@@ -2,7 +2,7 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter }
 import { CheckCircle2 } from 'lucide-react';
 import StripeCheckoutButton from './StripeCheckoutButton';
 import { Button } from '../ui/button';
-import { CURRENCY } from "@/constants/enums";
+// import { CURRENCY } from "@/constants/enums";
 // import { toast } from '@/hooks/use-toast';
 import Link from 'next/link';
 import { headers } from 'next/headers';
@@ -17,7 +17,6 @@ interface PackageCardProps {
   name: string;
   description?: string;
   price: number;
-  currency?: string;
   features: string[];
   className?: string;
   isFree?: boolean;
@@ -28,7 +27,6 @@ export default async function PackageCard({
   name,
   description,
   price,
-  currency = CURRENCY.CODE,
   features,
   className = '',
   isFree = false

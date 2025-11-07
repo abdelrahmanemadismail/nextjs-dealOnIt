@@ -19,7 +19,7 @@ import { Locale } from "@/i18n.config"
 import { createClient } from "@/utils/supabase/server"
 import SignupPopup from '@/components/SignupPopup';
 import CategoriesBanner from '@/components/CategoriesBanner';
-import CategoryBar from '@/components/CategoryBar';
+import CategoriesGrid from '@/components/CategoriesGrid';
 import PackageList from "@/components/checkout/PackageList"
 
 export default async function LandingPage({
@@ -172,9 +172,9 @@ export default async function LandingPage({
           </div>
         </section>
         {/* Categories Bar Section - now placed just below hero */}
-        {/* Mobile: Show CategoryBar */}
-        <div className="md:hidden relative z-20 w-full -mt-16">
-          <CategoryBar />
+        {/* Mobile: Show CategoriesGrid */}
+        <div className="md:hidden relative z-20 w-full -mt-16 px-4">
+          <CategoriesGrid categories={categories} />
         </div>
         {/* Desktop: Show CategoriesBanner */}
         <div className="hidden md:block relative z-20 w-full max-w-[95vw] mx-auto -mt-16 px-4">

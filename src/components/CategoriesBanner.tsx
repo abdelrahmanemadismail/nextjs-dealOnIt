@@ -248,9 +248,8 @@ export default function CategoriesBanner({
       <button
         onClick={onClick}
         className={clsx(
-          "flex h-10 w-10 md:h-12 md:w-12 rounded-full bg-white shadow-lg border border-gray-200 items-center justify-center text-gray-600 transition-all duration-200",
+          "hidden md:flex h-12 w-12 rounded-full bg-white shadow-lg border border-gray-200 items-center justify-center text-gray-600 transition-all duration-200",
           "hover:bg-orange-50 hover:border-orange-300 hover:text-orange-600 hover:shadow-xl hover:scale-105",
-          "active:scale-95", // Better mobile feedback
           "focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-2",
           "disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:shadow-lg disabled:hover:bg-white",
           "flex-shrink-0", // Prevent button from shrinking
@@ -261,7 +260,7 @@ export default function CategoriesBanner({
         aria-label={`Scroll ${direction}`}
         type="button"
       >
-        <ArrowIcon direction={shouldShowLeft ? 'left' : 'right'} className="w-4 h-4 md:w-5 md:h-5" />
+        <ArrowIcon direction={shouldShowLeft ? 'left' : 'right'} className="w-5 h-5" />
       </button>
     );
   };
